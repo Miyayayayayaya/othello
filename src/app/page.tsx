@@ -20,8 +20,18 @@ export default function Home() {
     const newBoard = structuredClone(board);
     if (board[y + 1] !== undefined && board[y + 1][x] === 3 - turnColor) {
       newBoard[y][x] = turnColor;
+      if ((board[y + 1][x] = 3 - turnColor)) {
+        newBoard[y + 1][x] = turnColor;
+      }
+      if ((board[y + 2][x] = 3 - turnColor)) {
+        newBoard[y + 2][x] = turnColor;
+      }
+      if ((board[y + 3][x] = 3 - turnColor)) {
+        newBoard[y + 3][x] = turnColor;
+      }
       setTurnColor(3 - turnColor);
     }
+
     setBoard(newBoard);
   };
   return (
