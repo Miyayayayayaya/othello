@@ -6,61 +6,60 @@ import styles from './page.module.css';
 export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 2, 2, 0, 0, 0],
+    [2, 1, 2, 0, 2, 1, 2, 0],
+    [0, 1, 2, 2, 1, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    if (board[y + 1] !== undefined && board[y + 1][x] === 3 - turnColor) {
-      newBoard[y][x] = turnColor;
-      for (let i = 1; i < 8; i++) {
-        if (board[y + i] !== undefined && board[y + i][x] === 3 - turnColor) {
-          newBoard[y + i][x] = turnColor;
-        }
-      }
-      setTurnColor(3 - turnColor);
+    let i = 1;
+    //Ｙ座標↓
+    while (board[y + i] !== undefined && board[y + i][x] === 3 - turnColor) {
+      i++;
     }
-
-    setBoard(newBoard);
-    if (board[x + 1] !== undefined && board[y][x + 1] === 3 - turnColor) {
+    if (i > 1 && board[y + i] !== undefined && board[y + i][x] === turnColor) {
       newBoard[y][x] = turnColor;
-      for (let i = 1; i < 8; i++) {
-        if (board[y][x + i] === turnColor) {
-          break;
-        }
-        if (board[x + i] !== undefined && board[y][x + i] === 3 - turnColor) {
-          newBoard[y][x + i] = turnColor;
-        }
+      for (let k = 1; k < i; k++) {
+        newBoard[y + k][x] = turnColor;
       }
-      setTurnColor(3 - turnColor);
     }
-
-    setBoard(newBoard);
-    if (board[x - 1] !== undefined && board[y][x - 1] === 3 - turnColor) {
+    //Ｙ座標↑
+    while (board[y - i] !== undefined && board[y - i][x] === 3 - turnColor) {
+      i++;
+    }
+    if (i > 1 && board[y - i] !== undefined && board[y - i][x] === turnColor) {
       newBoard[y][x] = turnColor;
-      for (let i = 1; i < 8; i++) {
-        if (board[x - i] !== undefined && board[y][x - i] === 3 - turnColor) {
-          newBoard[y][x - i] = turnColor;
-        }
+      for (let k = 1; k < i; k++) {
+        newBoard[y - k][x] = turnColor;
       }
-      setTurnColor(3 - turnColor);
     }
-    if (board[y - 1] !== undefined && board[y - 1][x] === 3 - turnColor) {
+    //Ｘ座標→
+    while (board[x + i] !== undefined && board[y][x + i] === 3 - turnColor) {
+      i++;
+    }
+    if (i > 1 && board[x + i] !== undefined && board[y][x + i] === turnColor) {
       newBoard[y][x] = turnColor;
-      for (let i = 1; i < 8; i++) {
-        if (board[y - i] !== undefined && board[y - i][x] === 3 - turnColor) {
-          newBoard[y - i][x] = turnColor;
-        }
+      for (let k = 1; k < i; k++) {
+        newBoard[y][x + k] = turnColor;
       }
-      setTurnColor(3 - turnColor);
     }
+    //X座標←
+    while (board[x - i] !== undefined && board[y][x - i] === 3 - turnColor) {
+      i++;
+    }
+    if (i > 1 && board[x - i] !== undefined && board[y][x - i] === turnColor) {
+      newBoard[y][x] = turnColor;
+      for (let k = 1; k < i; k++) {
+        newBoard[y][x - k] = turnColor;
+      }
+    }
+    setTurnColor(3 - turnColor);
 
     setBoard(newBoard);
   };
