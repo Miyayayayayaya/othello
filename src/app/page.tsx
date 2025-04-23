@@ -7,20 +7,22 @@ export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 1, 0, 1, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0],
-    [0, 1, 2, 0, 2, 1, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 2, 0],
+    [0, 0, 0, 2, 2, 1, 0, 0],
+    [0, 0, 0, 2, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    let i = 1;
     //Ｙ座標↓
+    let i = 1;
     while (board[y + i] !== undefined && board[y + i][x] === 3 - turnColor) {
+      console.log('↓');
+      console.log(i);
       i++;
       if (board[y + i] !== undefined && board[y + i][x] === 0) {
         i = 1;
@@ -35,8 +37,10 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //Ｙ座標↑
-
+    i = 1;
     while (board[y - i] !== undefined && board[y - i][x] === 3 - turnColor) {
+      console.log('↑');
+      console.log(i);
       i++;
       if (board[y - i] !== undefined && board[y - i][x] === 0) {
         i = 1;
@@ -51,7 +55,10 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //Ｘ座標→
+    i = 1;
     while (board[x + i] !== undefined && board[y][x + i] === 3 - turnColor) {
+      console.log('→');
+      console.log(i);
       i++;
       if (board[x + i] !== undefined && board[y][x + i] === 0) {
         i = 1;
@@ -66,7 +73,10 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //X座標←
+    i = 1;
     while (board[x - i] !== undefined && board[y][x - i] === 3 - turnColor) {
+      console.log('←');
+      console.log(i);
       i++;
       if (board[x - i] !== undefined && board[y][x - i] === 0) {
         i = 1;
@@ -81,15 +91,18 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //↘
+    i = 1;
     while (
       board[y + i] !== undefined &&
       board[y + i][x + i] !== undefined &&
       board[y + i][x + i] === 3 - turnColor
     ) {
+      console.log('↘');
+      console.log(i);
       i++;
       if (
-        board[y + i] !== undefined ||
-        board[y + i][x + i] !== undefined ||
+        board[y + i] !== undefined &&
+        board[y + i][x + i] !== undefined &&
         board[y + i][x + i] === 0
       ) {
         i = 1;
@@ -109,15 +122,18 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //↗
+    i = 1;
     while (
       board[y - i] !== undefined &&
       board[y - i][x + i] !== undefined &&
       board[y - i][x + i] === 3 - turnColor
     ) {
+      console.log('↗');
+      console.log(i);
       i++;
       if (
-        board[y - i] !== undefined ||
-        board[y - i][x + i] !== undefined ||
+        board[y - i] !== undefined &&
+        board[y - i][x + i] !== undefined &&
         board[y - i][x + i] === 0
       ) {
         i = 1;
@@ -137,15 +153,18 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //↖
+    i = 1;
     while (
       board[y - i] !== undefined &&
       board[y - i][x - i] !== undefined &&
       board[y - i][x - i] === 3 - turnColor
     ) {
+      console.log('↖');
+      console.log(i);
       i++;
       if (
-        board[y - i] !== undefined ||
-        board[y - i][x - i] !== undefined ||
+        board[y - i] !== undefined &&
+        board[y - i][x - i] !== undefined &&
         board[y - i][x - i] === 0
       ) {
         i = 1;
@@ -165,15 +184,18 @@ export default function Home() {
       setTurnColor(3 - turnColor);
     }
     //↙
+    i = 1;
     while (
       board[y + i] !== undefined &&
       board[y + i][x - i] !== undefined &&
       board[y + i][x - i] === 3 - turnColor
     ) {
+      console.log('↙');
+      console.log(i);
       i++;
       if (
-        board[y + i] !== undefined ||
-        board[y + i][x - i] !== undefined ||
+        board[y + i] !== undefined &&
+        board[y + i][x - i] !== undefined &&
         board[y + i][x - i] === 0
       ) {
         i = 1;
