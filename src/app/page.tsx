@@ -7,11 +7,11 @@ export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 1, 0, 1, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 1, 2, 0, 2, 1, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 1, 0, 1, 0, 1, 0, 1],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -31,10 +31,11 @@ export default function Home() {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y + k][x] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //Ｙ座標↑
+
     while (board[y - i] !== undefined && board[y - i][x] === 3 - turnColor) {
       i++;
       if (board[y - i] !== undefined && board[y - i][x] === 0) {
@@ -46,8 +47,8 @@ export default function Home() {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y - k][x] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //Ｘ座標→
     while (board[x + i] !== undefined && board[y][x + i] === 3 - turnColor) {
@@ -61,8 +62,8 @@ export default function Home() {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y][x + k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //X座標←
     while (board[x - i] !== undefined && board[y][x - i] === 3 - turnColor) {
@@ -76,17 +77,21 @@ export default function Home() {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y][x - k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //↘
     while (
       board[y + i] !== undefined &&
-      board[x + i] !== undefined &&
+      board[y + i][x + i] !== undefined &&
       board[y + i][x + i] === 3 - turnColor
     ) {
       i++;
-      if (board[y + i] !== undefined && board[x + i] !== undefined && board[y + i][x + i] === 0) {
+      if (
+        board[y + i] !== undefined ||
+        board[y + i][x + i] !== undefined ||
+        board[y + i][x + i] === 0
+      ) {
         i = 1;
         break;
       }
@@ -94,23 +99,27 @@ export default function Home() {
     if (
       i > 1 &&
       board[y + i] !== undefined &&
-      board[x + i] !== undefined &&
+      board[y + i][x + i] !== undefined &&
       board[y + i][x + i] === turnColor
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y + k][x + k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //↗
     while (
       board[y - i] !== undefined &&
-      board[x + i] !== undefined &&
+      board[y - i][x + i] !== undefined &&
       board[y - i][x + i] === 3 - turnColor
     ) {
       i++;
-      if (board[y - i] !== undefined && board[x + i] !== undefined && board[y - i][x + i] === 0) {
+      if (
+        board[y - i] !== undefined ||
+        board[y - i][x + i] !== undefined ||
+        board[y - i][x + i] === 0
+      ) {
         i = 1;
         break;
       }
@@ -118,23 +127,27 @@ export default function Home() {
     if (
       i > 1 &&
       board[y - i] !== undefined &&
-      board[x + i] !== undefined &&
+      board[y - i][x + i] !== undefined &&
       board[y - i][x + i] === turnColor
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y - k][x + k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //↖
     while (
       board[y - i] !== undefined &&
-      board[x - i] !== undefined &&
+      board[y - i][x - i] !== undefined &&
       board[y - i][x - i] === 3 - turnColor
     ) {
       i++;
-      if (board[y - i] !== undefined && board[x - i] !== undefined && board[y - i][x - i] === 0) {
+      if (
+        board[y - i] !== undefined ||
+        board[y - i][x - i] !== undefined ||
+        board[y - i][x - i] === 0
+      ) {
         i = 1;
         break;
       }
@@ -142,23 +155,27 @@ export default function Home() {
     if (
       i > 1 &&
       board[y - i] !== undefined &&
-      board[x - i] !== undefined &&
+      board[y - i][x - i] !== undefined &&
       board[y - i][x - i] === turnColor
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y - k][x - k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
     //↙
     while (
       board[y + i] !== undefined &&
-      board[x - i] !== undefined &&
+      board[y + i][x - i] !== undefined &&
       board[y + i][x - i] === 3 - turnColor
     ) {
       i++;
-      if (board[y + i] !== undefined && board[x - i] !== undefined && board[y + i][x - i] === 0) {
+      if (
+        board[y + i] !== undefined ||
+        board[y + i][x - i] !== undefined ||
+        board[y + i][x - i] === 0
+      ) {
         i = 1;
         break;
       }
@@ -166,14 +183,14 @@ export default function Home() {
     if (
       i > 1 &&
       board[y + i] !== undefined &&
-      board[x - i] !== undefined &&
+      board[y + i][x - i] !== undefined &&
       board[y + i][x - i] === turnColor
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y + k][x - k] = turnColor;
-        setTurnColor(3 - turnColor);
       }
+      setTurnColor(3 - turnColor);
     }
 
     setBoard(newBoard);
