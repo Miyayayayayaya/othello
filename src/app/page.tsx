@@ -8,9 +8,9 @@ export default function Home() {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 2, 0],
-    [0, 0, 0, 2, 2, 1, 0, 0],
-    [0, 0, 0, 2, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,7 +18,11 @@ export default function Home() {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
+    let white = 0;
+    let black = 0;
+
     //Ｙ座標↓
+
     let i = 1;
     while (board[y + i] !== undefined && board[y + i][x] === 3 - turnColor) {
       console.log('↓');
@@ -214,7 +218,16 @@ export default function Home() {
       }
       setTurnColor(3 - turnColor);
     }
-
+    for (const row of board) {
+      for (const cell of row) {
+        if (cell === 1) {
+          black++;
+        } else if (cell === 2) {
+          white++;
+        }
+      }
+    }
+    console.log('黒', black, '白', white);
     setBoard(newBoard);
   };
 
