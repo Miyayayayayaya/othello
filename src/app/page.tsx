@@ -18,8 +18,6 @@ export default function Home() {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    let white = 0;
-    let black = 0;
 
     //Ｙ座標↓
 
@@ -218,21 +216,24 @@ export default function Home() {
       }
       setTurnColor(3 - turnColor);
     }
-    for (const row of board) {
-      for (const cell of row) {
-        if (cell === 1) {
-          black++;
-        } else if (cell === 2) {
-          white++;
-        }
-      }
-    }
-    console.log('黒', black, '白', white);
     setBoard(newBoard);
   };
+  let white = 0;
+  let black = 0;
+  for (const row of board) {
+    for (const cell of row) {
+      if (cell === 1) {
+        black++;
+      } else if (cell === 2) {
+        white++;
+      }
+    }
+  }
+  console.log('黒', black, '白', white);
 
   return (
     <div className={styles.container}>
+      <div className={styles.scoreboard}>/</div>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
