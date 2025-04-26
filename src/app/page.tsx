@@ -233,6 +233,8 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.scoreboard} />
+      <div id="black">黒</div>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
