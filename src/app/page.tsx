@@ -234,7 +234,11 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.scoreboard} />
-      <div id="black">黒</div>
+      <div className={styles.textstyle2}>SCORE</div>
+      <div className={styles.textstyle1}>
+        <p>黒--{black}枚</p>
+        <p>白--{white}枚</p>
+      </div>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
