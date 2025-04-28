@@ -63,3 +63,10 @@
   font-style: normal;
   font-weight: 400;
 }
+
+.cellmark {
+  width: 28px;
+  height: 28px;
+  background-color: #b5afaf;
+  border-radius: 28px;
+}

@@ -31,7 +31,7 @@ export default function Home() {
         break;
       }
     }
-    if (i > 1 && board[y + i] !== undefined && board[y + i][x] === turnColor) {
+    if (i > 1 && board[y + i] !== undefined && board[y + i][x] === turnColor && board[y][x] === 0) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y + k][x] = turnColor;
@@ -49,7 +49,7 @@ export default function Home() {
         break;
       }
     }
-    if (i > 1 && board[y - i] !== undefined && board[y - i][x] === turnColor) {
+    if (i > 1 && board[y - i] !== undefined && board[y - i][x] === turnColor && board[y][x] === 0) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y - k][x] = turnColor;
@@ -67,7 +67,7 @@ export default function Home() {
         break;
       }
     }
-    if (i > 1 && board[x + i] !== undefined && board[y][x + i] === turnColor) {
+    if (i > 1 && board[x + i] !== undefined && board[y][x + i] === turnColor && board[y][x] === 0) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y][x + k] = turnColor;
@@ -85,7 +85,7 @@ export default function Home() {
         break;
       }
     }
-    if (i > 1 && board[x - i] !== undefined && board[y][x - i] === turnColor) {
+    if (i > 1 && board[x - i] !== undefined && board[y][x - i] === turnColor && board[y][x] === 0) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
         newBoard[y][x - k] = turnColor;
@@ -115,7 +115,8 @@ export default function Home() {
       i > 1 &&
       board[y + i] !== undefined &&
       board[y + i][x + i] !== undefined &&
-      board[y + i][x + i] === turnColor
+      board[y + i][x + i] === turnColor &&
+      board[y][x] === 0
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
@@ -146,7 +147,8 @@ export default function Home() {
       i > 1 &&
       board[y - i] !== undefined &&
       board[y - i][x + i] !== undefined &&
-      board[y - i][x + i] === turnColor
+      board[y - i][x + i] === turnColor &&
+      board[y][x] === 0
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
@@ -177,7 +179,8 @@ export default function Home() {
       i > 1 &&
       board[y - i] !== undefined &&
       board[y - i][x - i] !== undefined &&
-      board[y - i][x - i] === turnColor
+      board[y - i][x - i] === turnColor &&
+      board[y][x] === 0
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
@@ -208,7 +211,8 @@ export default function Home() {
       i > 1 &&
       board[y + i] !== undefined &&
       board[y + i][x - i] !== undefined &&
-      board[y + i][x - i] === turnColor
+      board[y + i][x - i] === turnColor &&
+      board[y][x] === 0
     ) {
       newBoard[y][x] = turnColor;
       for (let k = 1; k < i; k++) {
@@ -243,6 +247,7 @@ export default function Home() {
         {board.map((row, y) =>
           row.map((color, x) => (
             <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+              {color === 0 && <div className={styles.cellmark} />}
               {color !== 0 && (
                 <div
                   className={styles.stone}
