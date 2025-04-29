@@ -91,6 +91,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.turnboard} />
       <div className={styles.scoreboard} />
       <div className={styles.textstyle2}>SCORE</div>
       <div className={styles.textstyle1}>
