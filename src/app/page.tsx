@@ -92,6 +92,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.turnboard} />
+      <div className={styles.textstyle4}>のターン</div>
+      <div className={styles.textstyle3}>{turnColor === 1 ? '黒' : '白'}</div>
       <div className={styles.scoreboard} />
       <div className={styles.textstyle2}>SCORE</div>
       <div className={styles.textstyle1}>
