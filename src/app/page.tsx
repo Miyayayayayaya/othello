@@ -18,208 +18,62 @@ export default function Home() {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
+    // 方向の定義（dy, dx）… 上, 右上, 右, 右下, 下, 左下, 左, 左上
+    const directions = [
+      [-1, 0], // 上
+      [-1, 1], // 右上
+      [0, 1], // 右
+      [1, 1], // 右下
+      [1, 0], // 下
+      [1, -1], // 左下
+      [0, -1], // 左
+      [-1, -1], // 左上
+    ];
 
-    //Ｙ座標↓
+    // 盤面をコピー
 
-    let i = 1;
-    while (board[y + i] !== undefined && board[y + i][x] === 3 - turnColor) {
-      console.log('↓');
-      console.log(i);
-      i++;
-      if (board[y + i] !== undefined && board[y + i][x] === 0) {
-        i = 1;
-        break;
+    let flipped = false;
+
+    for (const [dy, dx] of directions) {
+      let i = 1;
+      const line: [number, number][] = [];
+
+      while (true) {
+        const ny = y + dy * i;
+        const nx = x + dx * i;
+
+        if (newBoard[ny] === undefined || newBoard[ny][nx] === undefined) {
+          break;
+        }
+
+        const cell = newBoard[ny][nx];
+
+        if (cell === 0) {
+          break; // 空白なら終了
+        } else if (cell === turnColor) {
+          if (line.length > 0) {
+            // 相手の石が1個以上あって自分の石にぶつかったら裏返す
+            for (const [fy, fx] of line) {
+              newBoard[fy][fx] = turnColor;
+            }
+            newBoard[y][x] = turnColor;
+            flipped = true;
+          }
+          break;
+        } else if (cell === 3 - turnColor) {
+          line.push([ny, nx]); // 挟める可能性があるので記録
+        }
+
+        i++;
       }
     }
-    if (i > 1 && board[y + i] !== undefined && board[y + i][x] === turnColor && board[y][x] === 0) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y + k][x] = turnColor;
-      }
+
+    // ひっくり返せた場合だけ手番交代
+    if (flipped) {
       setTurnColor(3 - turnColor);
+      // newBoard を setState で更新するなど
     }
-    //Ｙ座標↑
-    i = 1;
-    while (board[y - i] !== undefined && board[y - i][x] === 3 - turnColor) {
-      console.log('↑');
-      console.log(i);
-      i++;
-      if (board[y - i] !== undefined && board[y - i][x] === 0) {
-        i = 1;
-        break;
-      }
-    }
-    if (i > 1 && board[y - i] !== undefined && board[y - i][x] === turnColor && board[y][x] === 0) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y - k][x] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //Ｘ座標→
-    i = 1;
-    while (board[x + i] !== undefined && board[y][x + i] === 3 - turnColor) {
-      console.log('→');
-      console.log(i);
-      i++;
-      if (board[x + i] !== undefined && board[y][x + i] === 0) {
-        i = 1;
-        break;
-      }
-    }
-    if (i > 1 && board[x + i] !== undefined && board[y][x + i] === turnColor && board[y][x] === 0) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y][x + k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //X座標←
-    i = 1;
-    while (board[x - i] !== undefined && board[y][x - i] === 3 - turnColor) {
-      console.log('←');
-      console.log(i);
-      i++;
-      if (board[x - i] !== undefined && board[y][x - i] === 0) {
-        i = 1;
-        break;
-      }
-    }
-    if (i > 1 && board[x - i] !== undefined && board[y][x - i] === turnColor && board[y][x] === 0) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y][x - k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //↘
-    i = 1;
-    while (
-      board[y + i] !== undefined &&
-      board[y + i][x + i] !== undefined &&
-      board[y + i][x + i] === 3 - turnColor
-    ) {
-      console.log('↘');
-      console.log(i);
-      i++;
-      if (
-        board[y + i] !== undefined &&
-        board[y + i][x + i] !== undefined &&
-        board[y + i][x + i] === 0
-      ) {
-        i = 1;
-        break;
-      }
-    }
-    if (
-      i > 1 &&
-      board[y + i] !== undefined &&
-      board[y + i][x + i] !== undefined &&
-      board[y + i][x + i] === turnColor &&
-      board[y][x] === 0
-    ) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y + k][x + k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //↗
-    i = 1;
-    while (
-      board[y - i] !== undefined &&
-      board[y - i][x + i] !== undefined &&
-      board[y - i][x + i] === 3 - turnColor
-    ) {
-      console.log('↗');
-      console.log(i);
-      i++;
-      if (
-        board[y - i] !== undefined &&
-        board[y - i][x + i] !== undefined &&
-        board[y - i][x + i] === 0
-      ) {
-        i = 1;
-        break;
-      }
-    }
-    if (
-      i > 1 &&
-      board[y - i] !== undefined &&
-      board[y - i][x + i] !== undefined &&
-      board[y - i][x + i] === turnColor &&
-      board[y][x] === 0
-    ) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y - k][x + k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //↖
-    i = 1;
-    while (
-      board[y - i] !== undefined &&
-      board[y - i][x - i] !== undefined &&
-      board[y - i][x - i] === 3 - turnColor
-    ) {
-      console.log('↖');
-      console.log(i);
-      i++;
-      if (
-        board[y - i] !== undefined &&
-        board[y - i][x - i] !== undefined &&
-        board[y - i][x - i] === 0
-      ) {
-        i = 1;
-        break;
-      }
-    }
-    if (
-      i > 1 &&
-      board[y - i] !== undefined &&
-      board[y - i][x - i] !== undefined &&
-      board[y - i][x - i] === turnColor &&
-      board[y][x] === 0
-    ) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y - k][x - k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
-    //↙
-    i = 1;
-    while (
-      board[y + i] !== undefined &&
-      board[y + i][x - i] !== undefined &&
-      board[y + i][x - i] === 3 - turnColor
-    ) {
-      console.log('↙');
-      console.log(i);
-      i++;
-      if (
-        board[y + i] !== undefined &&
-        board[y + i][x - i] !== undefined &&
-        board[y + i][x - i] === 0
-      ) {
-        i = 1;
-        break;
-      }
-    }
-    if (
-      i > 1 &&
-      board[y + i] !== undefined &&
-      board[y + i][x - i] !== undefined &&
-      board[y + i][x - i] === turnColor &&
-      board[y][x] === 0
-    ) {
-      newBoard[y][x] = turnColor;
-      for (let k = 1; k < i; k++) {
-        newBoard[y + k][x - k] = turnColor;
-      }
-      setTurnColor(3 - turnColor);
-    }
+
     setBoard(newBoard);
   };
   let white = 0;
