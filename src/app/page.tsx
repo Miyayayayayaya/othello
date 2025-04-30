@@ -15,22 +15,49 @@ export default function Home() {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+  const directions = [
+    [-1, 0], // 上
+    [-1, 1], // 右上
+    [0, 1], // 右
+    [1, 1], // 右下
+    [1, 0], // 下
+    [1, -1], // 左下
+    [0, -1], // 左
+    [-1, -1], // 左上
+  ];
+  const getValidMoves = (board: number[][], turn: number): [number, number][] => {
+    const opponent = turn === 1 ? 2 : 1;
+    const validMoves: [number, number][] = [];
+
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (board[y][x] !== 0) continue;
+
+        for (const [dy, dx] of directions) {
+          let ny = y + dy;
+          let nx = x + dx;
+          let foundOpponent = false;
+
+          while (ny >= 0 && ny < 8 && nx >= 0 && nx < 8 && board[ny][nx] === opponent) {
+            foundOpponent = true;
+            ny += dy;
+            nx += dx;
+          }
+
+          if (foundOpponent && ny >= 0 && ny < 8 && nx >= 0 && nx < 8 && board[ny][nx] === turn) {
+            validMoves.push([y, x]);
+            break;
+          }
+        }
+      }
+    }
+
+    return validMoves;
+  };
+
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    // 方向の定義（dy, dx）… 上, 右上, 右, 右下, 下, 左下, 左, 左上
-    const directions = [
-      [-1, 0], // 上
-      [-1, 1], // 右上
-      [0, 1], // 右
-      [1, 1], // 右下
-      [1, 0], // 下
-      [1, -1], // 左下
-      [0, -1], // 左
-      [-1, -1], // 左上
-    ];
-
-    // 盤面をコピー
 
     let flipped = false;
 
@@ -92,7 +119,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.turnboard} />
-      <div className={styles.textstyle4}>のターン</div>
+      <div className={styles.textstyle4}>の番</div>
       <div className={styles.textstyle3}>{turnColor === 1 ? '黒' : '白'}</div>
       <div className={styles.scoreboard} />
       <div className={styles.textstyle2}>SCORE</div>
