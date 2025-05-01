@@ -154,15 +154,20 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.turnboard} />
-      <div className={styles.textstyle4}>の番</div>
-      <div className={styles.textstyle3}>{turnColor === 1 ? '黒' : '白'}</div>
-      <div className={styles.scoreboard} />
-      <div className={styles.textstyle2}>SCORE</div>
-      <div className={styles.textstyle1}>
-        <p>黒--{black}枚</p>
-        <p>白--{white}枚</p>
+      <div className={styles.scoredesign}>
+        <div className={styles.turnboard}>
+          <div className={styles.textstyle3}>{turnColor === 1 ? '黒' : '白'}</div>
+          <div className={styles.textstyle4}>の番</div>
+        </div>
+        <div className={styles.scoreboard}>
+          <div className={styles.textstyle2}>SCORE</div>
+          <div className={styles.textstyle1}>
+            <p>黒--{black}枚</p>
+            <p>白--{white}枚</p>
+          </div>
+        </div>
       </div>
+
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => {
