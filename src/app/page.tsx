@@ -57,6 +57,7 @@ export default function Home() {
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
+    if (board[y][x] !== 0) return;
     const newBoard = structuredClone(board);
 
     let flipped = false;
