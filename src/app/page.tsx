@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -15,45 +15,65 @@ export default function Home() {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const directions = [
-    [-1, 0], // 上
-    [-1, 1], // 右上
-    [0, 1], // 右
-    [1, 1], // 右下
-    [1, 0], // 下
-    [1, -1], // 左下
-    [0, -1], // 左
-    [-1, -1], // 左上
-  ];
-  const getValidMoves = (board: number[][], turn: number): [number, number][] => {
-    const opponent = turn === 1 ? 2 : 1;
-    const validMoves: [number, number][] = [];
+  const [validMoves, setValidMoves] = useState<[number, number][]>([]);
+  const directions = useMemo(
+    () => [
+      [-1, 0], // 上
+      [-1, 1], // 右上
+      [0, 1], // 右
+      [1, 1], // 右下
+      [1, 0], // 下
+      [1, -1], // 左下
+      [0, -1], // 左
+      [-1, -1], // 左上
+    ],
+    [],
+  );
 
-    for (let y = 0; y < 8; y++) {
-      for (let x = 0; x < 8; x++) {
-        if (board[y][x] !== 0) continue;
+  const getValidMoves = useCallback(
+    (board: number[][], turn: number): [number, number][] => {
+      const validMoves: [number, number][] = [];
 
-        for (const [dy, dx] of directions) {
-          let ny = y + dy;
-          let nx = x + dx;
-          let foundOpponent = false;
+      for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+          if (board[y][x] !== 0) continue;
 
-          while (ny >= 0 && ny < 8 && nx >= 0 && nx < 8 && board[ny][nx] === opponent) {
-            foundOpponent = true;
-            ny += dy;
-            nx += dx;
-          }
+          for (const [dy, dx] of directions) {
+            let i = 1;
+            let foundOpponent = false;
 
-          if (foundOpponent && ny >= 0 && ny < 8 && nx >= 0 && nx < 8 && board[ny][nx] === turn) {
-            validMoves.push([y, x]);
-            break;
+            while (true) {
+              const ny = y + dy * i;
+              const nx = x + dx * i;
+              if (board[ny]?.[nx] === undefined) break;
+
+              const cell = board[ny][nx];
+              if (cell === 0) break;
+              if (cell === 3 - turn) {
+                foundOpponent = true;
+              } else if (cell === turn) {
+                if (foundOpponent) {
+                  validMoves.push([y, x]);
+                }
+                break;
+              } else {
+                break;
+              }
+
+              i++;
+            }
           }
         }
       }
-    }
 
-    return validMoves;
-  };
+      return validMoves;
+    },
+    [directions],
+  );
+
+  useEffect(() => {
+    setValidMoves(getValidMoves(board, turnColor));
+  }, [board, turnColor, getValidMoves]);
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
@@ -130,17 +150,20 @@ export default function Home() {
       </div>
       <div className={styles.board}>
         {board.map((row, y) =>
-          row.map((color, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-              {color === 0 && <div className={styles.cellmark} />}
-              {color !== 0 && (
-                <div
-                  className={styles.stone}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
-                />
-              )}
-            </div>
-          )),
+          row.map((color, x) => {
+            const isValid = validMoves.some(([vy, vx]) => vy === y && vx === x);
+            return (
+              <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+                {color === 0 && isValid && <div className={styles.cellmark} />}
+                {color !== 0 && (
+                  <div
+                    className={styles.stone}
+                    style={{ background: color === 1 ? '#000' : '#fff' }}
+                  />
+                )}
+              </div>
+            );
+          }),
         )}
       </div>
     </div>
