@@ -33,7 +33,6 @@ export default function Home() {
   const getValidMoves = useCallback(
     (board: number[][], turn: number): [number, number][] => {
       const validMoves: [number, number][] = [];
-
       for (let y = 0; y < 8; y++) {
         for (let x = 0; x < 8; x++) {
           if (board[y][x] !== 0) continue;
@@ -73,6 +72,17 @@ export default function Home() {
 
   useEffect(() => {
     setValidMoves(getValidMoves(board, turnColor));
+    const moves = getValidMoves(board, turnColor);
+    if (moves.length === 0) {
+      const opponentMoves = getValidMoves(board, 3 - turnColor);
+      if (opponentMoves.length > 0) {
+        alert(`${turnColor === 1 ? '黒' : '白'}は置けないのでスキップされます`);
+        setTurnColor(3 - turnColor);
+      } else {
+        alert('両者とも置けないため、ゲーム終了です');
+        // ここで終了処理などが可能（オプション）
+      }
+    }
   }, [board, turnColor, getValidMoves]);
 
   const clickHandler = (x: number, y: number) => {
