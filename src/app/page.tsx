@@ -69,6 +69,8 @@ export default function Home() {
     },
     [directions],
   );
+  let white = 0;
+  let black = 0;
 
   useEffect(() => {
     setValidMoves(getValidMoves(board, turnColor));
@@ -80,10 +82,14 @@ export default function Home() {
         setTurnColor(3 - turnColor);
       } else {
         alert('両者とも置けないため、ゲーム終了です');
-        // ここで終了処理などが可能（オプション）
+        if (black > white) {
+          alert('黒の勝利！！');
+        } else {
+          alert('白の勝利！！');
+        }
       }
     }
-  }, [board, turnColor, getValidMoves]);
+  }, [board, turnColor, getValidMoves, black, white]);
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
@@ -134,8 +140,7 @@ export default function Home() {
 
     setBoard(newBoard);
   };
-  let white = 0;
-  let black = 0;
+
   for (const row of board) {
     for (const cell of row) {
       if (cell === 1) {
