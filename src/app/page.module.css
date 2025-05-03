@@ -117,13 +117,14 @@
     height: 100vh;
     min-height: 100vh;
     padding: 0 0.5rem;
+    background-color: #84ffe8;
   }
 
   .board {
     position: relative;
     width: 40vh;
     height: 40vh;
-    background-color: #1c8912;
+    background-color: #fc2ef5;
   }
 
   .cell {
@@ -133,7 +134,8 @@
     justify-content: center;
     width: 5vh;
     height: 5vh;
-    border: 3px solid #000;
+    border: 2px solid #55218e;
+    border-radius: 0.5vh;
   }
 
   .stone {
@@ -146,7 +148,7 @@
   .cellmark {
     width: 2vh;
     height: 2vh;
-    background-color: #b5afaf;
+    background-color: #f91c8b;
     border-radius: 1vh;
   }
 
@@ -155,8 +157,8 @@
     width: 40vh;
     height: 10vh;
     margin-right: 2vh;
-    margin-bottom: 11vh;
-    border: 1vh solid #fff;
+    margin-bottom: 12vh;
+    border: 1vh solid #84ffe8;
   }
 
   .turnboard {
@@ -164,7 +166,7 @@
     height: 11vh;
     margin-top: 10vh;
     margin-right: 1vh;
-    border: 0.5vh solid #000;
+    border: 0.3vh solid #000;
     border-radius: 2vh;
   }
 
@@ -172,9 +174,9 @@
     align-items: center;
     justify-content: center;
     width: 25vh;
-    height: 21vh;
+    height: 22vh;
     margin-top: 1vh;
-    border: 3px solid #000;
+    border: 0.3vh solid #000;
     border-radius: 10px;
   }
 
