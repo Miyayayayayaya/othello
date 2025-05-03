@@ -1,105 +1,219 @@
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 
-.container {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  min-height: 100vh;
-  padding: 0 0.5rem;
+@media screen and (width >480px) {
+  .container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 0 0.5rem;
+  }
+
+  .board {
+    position: relative;
+    width: 640px;
+    height: 640px;
+    background-color: #1c8912;
+  }
+
+  .cell {
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border: 3px solid #000;
+  }
+
+  .stone {
+    width: 56px;
+    height: 56px;
+    background-color: #fff;
+    border-radius: 56px;
+  }
+
+  .scoreboard {
+    align-items: center;
+    justify-content: center;
+    width: 25vh;
+    height: 245px;
+    margin-top: 5vh;
+    border: 3px solid #000;
+    border-radius: 10px;
+  }
+
+  .textstyle1 {
+    padding-left: 4vh;
+    margin-right: 2vh;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(0 0 0);
+  }
+
+  .textstyle2 {
+    padding-left: 3vh;
+    margin-top: 2vh;
+    margin-right: 1vh;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .cellmark {
+    width: 28px;
+    height: 28px;
+    background-color: #b5afaf;
+    border-radius: 28px;
+  }
+
+  .turnboard {
+    width: 25vh;
+    height: 15vh;
+    border: 0.5vh solid #000;
+    border-radius: 2vh;
+  }
+
+  .textstyle3 {
+    float: left;
+    padding-top: 1vh;
+    padding-left: 3.5vh;
+    font-family: arial, sans-serif;
+    font-size: 8vh;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .textstyle4 {
+    align-items: center;
+    justify-content: right;
+    padding-top: 5vh;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 4vh;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .scoredesign {
+    width: 20vh;
+    height: 50vh;
+    margin-top: -30vh;
+    margin-right: 5vh;
+    border: -1vh solid #fff;
+  }
 }
 
-.board {
-  position: relative;
-  width: 640px;
-  height: 640px;
-  background-color: #1c8912;
-}
+@media screen and (width <=480px) {
+  .container {
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 0 0.5rem;
+  }
 
-.cell {
-  float: left;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  border: 3px solid #000;
-}
+  .board {
+    position: relative;
+    width: 40vh;
+    height: 40vh;
+    background-color: #1c8912;
+  }
 
-.stone {
-  width: 56px;
-  height: 56px;
-  background-color: #fff;
-  border-radius: 56px;
-}
+  .cell {
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vh;
+    height: 5vh;
+    border: 3px solid #000;
+  }
 
-.scoreboard {
-  align-items: center;
-  justify-content: center;
-  width: 25vh;
-  height: 245px;
-  margin-top: 5vh;
-  border: 3px solid #000;
-  border-radius: 10px;
-}
+  .stone {
+    width: 4vh;
+    height: 4vh;
+    background-color: #fff;
+    border-radius: 56px;
+  }
 
-.textstyle1 {
-  padding-left: 4vh;
-  margin-right: 20px;
-  font-family: Arial, sans-serif;
-  font-size: 30px;
-  font-weight: bold;
-  color: rgb(0 0 0);
-}
+  .cellmark {
+    width: 2vh;
+    height: 2vh;
+    background-color: #b5afaf;
+    border-radius: 1vh;
+  }
 
-.textstyle2 {
-  padding-left: 3vh;
-  margin-top: 1vh;
-  margin-right: 1vh;
-  font-family: 'Alfa Slab One', serif;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 400;
-}
+  .scoredesign {
+    display: flex;
+    width: 40vh;
+    height: 10vh;
+    margin-right: 2vh;
+    margin-bottom: 11vh;
+    border: 1vh solid #fff;
+  }
 
-.cellmark {
-  width: 28px;
-  height: 28px;
-  background-color: #b5afaf;
-  border-radius: 28px;
-}
+  .turnboard {
+    width: 25vh;
+    height: 11vh;
+    margin-top: 10vh;
+    margin-right: 1vh;
+    border: 0.5vh solid #000;
+    border-radius: 2vh;
+  }
 
-.turnboard {
-  width: 150px;
-  height: 100px;
-  border: 3px solid #000;
-  border-radius: 10px;
-}
+  .scoreboard {
+    align-items: center;
+    justify-content: center;
+    width: 25vh;
+    height: 21vh;
+    margin-top: 1vh;
+    border: 3px solid #000;
+    border-radius: 10px;
+  }
 
-.textstyle3 {
-  float: left;
-  font-family: arial, sans-serif;
-  font-size: 8vh;
-  font-style: normal;
-  font-weight: 700;
-}
+  .textstyle1 {
+    padding-left: 4vh;
+    margin-right: 1vh;
+    font-family: Arial, sans-serif;
+    font-size: 3vh;
+    font-weight: bold;
+    color: rgb(0 0 0);
+  }
 
-.textstyle4 {
-  align-items: center;
-  justify-content: right;
-  padding-top: 5vh;
-  font-family: 'Alfa Slab One', serif;
-  font-size: 4vh;
-  font-style: normal;
-  font-weight: 500;
-}
+  .textstyle2 {
+    padding-left: 3.5vh;
+    margin-top: 1vh;
+    margin-right: 2vh;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 3vh;
+    font-style: normal;
+    font-weight: 400;
+  }
 
-.scoredesign {
-  width: 150px;
-  height: 350px;
-  margin-top: -30vh;
-  margin-right: 5vh;
-  border: 3px solid #fff;
-  border-radius: 10px;
+  .textstyle3 {
+    float: left;
+    padding-top: 1vh;
+    padding-left: 3.5vh;
+    font-family: arial, sans-serif;
+    font-size: 5vh;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .textstyle4 {
+    align-items: center;
+    justify-content: right;
+    padding-top: 3vh;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 3vh;
+    font-style: normal;
+    font-weight: 500;
+  }
 }
