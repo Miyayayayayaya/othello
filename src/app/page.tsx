@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import styles from './page.module.css';
 
 const calcurateBlackPoint = (Board: number[][]) => {
@@ -13,6 +13,58 @@ const calcurateWhitePoint = (Board: number[][]) => {
   console.log(white);
   return white;
 };
+const directions = [
+  [-1, 0], // 上
+  [-1, 1], // 右上
+  [0, 1], // 右
+  [1, 1], // 右下
+  [1, 0], // 下
+  [1, -1], // 左下
+  [0, -1], // 左
+  [-1, -1], // 左上
+];
+
+const calcurateBoardWithCandidates = (Board: number[][], turnColor: number) => {
+  const line: [number, number][] = [];
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (Board[y][x] !== 0) {
+        continue;
+      }
+      for (const [dy, dx] of directions) {
+        let i = 1;
+
+        const ny = y + dy;
+        const nx = x + dx;
+        if (Board[ny] === undefined) {
+          continue;
+        }
+        if (Board[ny][nx] === 0 || Board[ny][nx] === turnColor) {
+          continue;
+        }
+
+        while (true) {
+          const ny = y + dy * i;
+          const nx = x + dx * i;
+          if (ny < 0 || ny >= 8 || nx < 0 || nx >= 8) {
+            break;
+          }
+          if (Board[ny][nx] === 0) {
+            break;
+          }
+          if (Board[ny][nx] === turnColor) {
+            line.push([y, x]);
+            break;
+          }
+
+          i++;
+        }
+      }
+    }
+  }
+  console.log(line);
+  return line;
+};
 
 export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
@@ -20,91 +72,24 @@ export default function Home() {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 2, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
     [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const [validMoves, setValidMoves] = useState<[number, number][]>([]);
-  const directions = useMemo(
-    () => [
-      [-1, 0], // 上
-      [-1, 1], // 右上
-      [0, 1], // 右
-      [1, 1], // 右下
-      [1, 0], // 下
-      [1, -1], // 左下
-      [0, -1], // 左
-      [-1, -1], // 左上
-    ],
-    [],
-  );
-
-  const getValidMoves = useCallback(
-    (board: number[][], turn: number): [number, number][] => {
-      const validMoves: [number, number][] = [];
-      for (let y = 0; y < 8; y++) {
-        for (let x = 0; x < 8; x++) {
-          if (board[y][x] !== 0) continue;
-
-          for (const [dy, dx] of directions) {
-            let i = 1;
-            let foundOpponent = false;
-
-            while (true) {
-              const ny = y + dy * i;
-              const nx = x + dx * i;
-              if (board[ny]?.[nx] === undefined) break;
-
-              const cell = board[ny][nx];
-              if (cell === 0) break;
-              if (cell === 3 - turn) {
-                foundOpponent = true;
-              } else if (cell === turn) {
-                if (foundOpponent) {
-                  validMoves.push([y, x]);
-                }
-                break;
-              } else {
-                break;
-              }
-
-              i++;
-            }
-          }
-        }
-      }
-
-      return validMoves;
-    },
-    [directions],
-  );
-  let white = 0;
-  let black = 0;
-
-  useEffect(() => {
-    setValidMoves(getValidMoves(board, turnColor));
-    const moves = getValidMoves(board, turnColor);
-    if (moves.length === 0) {
-      const opponentMoves = getValidMoves(board, 3 - turnColor);
-      if (opponentMoves.length > 0) {
-        alert(`${turnColor === 1 ? '黒' : '白'}は置けないのでスキップされます`);
-        setTurnColor(3 - turnColor);
-      } else {
-        alert('両者とも置けないため、ゲーム終了です');
-        if (black > white) {
-          alert('黒の勝利！！');
-        } else {
-          alert('白の勝利！！');
-        }
-      }
+  const markAction = () => {
+    const newBoard = structuredClone(board);
+    const line = calcurateBoardWithCandidates(newBoard, turnColor);
+    for (const [ky, kx] of line) {
+      newBoard[ky][kx] = 3;
     }
-  }, [board, turnColor, getValidMoves, black, white]);
+    return newBoard;
+  };
 
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
-    if (board[y][x] !== 0) return;
+
     const newBoard = structuredClone(board);
 
     let flipped = false;
@@ -148,20 +133,8 @@ export default function Home() {
       setTurnColor(3 - turnColor);
       // newBoard を setState で更新するなど
     }
-
     setBoard(newBoard);
   };
-
-  for (const row of board) {
-    for (const cell of row) {
-      if (cell === 1) {
-        black++;
-      } else if (cell === 2) {
-        white++;
-      }
-    }
-  }
-  console.log('黒', black, '白', white);
 
   return (
     <div className={styles.container}>
@@ -179,21 +152,20 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.board}>
-        {board.map((row, y) =>
-          row.map((color, x) => {
-            const isValid = validMoves.some(([vy, vx]) => vy === y && vx === x);
-            return (
-              <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-                {color === 0 && isValid && <div className={styles.cellmark} />}
-                {color !== 0 && (
+        {markAction().map((row, y) =>
+          row.map((color, x) => (
+            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+              {color !== 0 &&
+                (color === 3 ? (
+                  <div className={styles.cellmark} />
+                ) : (
                   <div
                     className={styles.stone}
                     style={{ background: color === 1 ? '#000' : '#fff' }}
                   />
-                )}
-              </div>
-            );
-          }),
+                ))}
+            </div>
+          )),
         )}
       </div>
     </div>
