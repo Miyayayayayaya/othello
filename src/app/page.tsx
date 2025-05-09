@@ -3,13 +3,24 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './page.module.css';
 
+const calcurateBlackPoint = (Board: number[][]) => {
+  const black = Board.flat().filter((i) => i === 1).length;
+  console.log(black);
+  return black;
+};
+const calcurateWhitePoint = (Board: number[][]) => {
+  const white = Board.flat().filter((i) => i === 2).length;
+  console.log(white);
+  return white;
+};
+
 export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 1, 1, 1, 2, 0, 0, 0],
     [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -162,12 +173,11 @@ export default function Home() {
         <div className={styles.scoreboard}>
           <div className={styles.textstyle2}>SCORE</div>
           <div className={styles.textstyle1}>
-            <p>黒--{black}枚</p>
-            <p>白--{white}枚</p>
+            <p>黒--{calcurateBlackPoint(board)}枚</p>
+            <p>白--{calcurateWhitePoint(board)}枚</p>
           </div>
         </div>
       </div>
-
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => {

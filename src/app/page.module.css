@@ -2,6 +2,7 @@
 
 @media screen and (width >480px) {
   .container {
+    position: relative;
     display: flex;
     gap: 20px;
     align-items: center;
@@ -104,6 +105,36 @@
     margin-top: -30vh;
     margin-right: 5vh;
     border: -1vh solid #fff;
+  }
+
+  .startscreen {
+    position: absolute;
+    z-index: 1;
+    width: 140vh;
+    height: 101vh;
+    background-color: #219a1f;
+  }
+
+  .textstyle5 {
+    margin-top: 15vh;
+    margin-left: 25vh;
+    font-family: 'Alfa Slab One', serif;
+    font-size: 150px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .startboard {
+    width: 60vh;
+    height: 15vh;
+    padding-left: 4vh;
+    margin-top: 10vh;
+    margin-left: 41vh;
+    font-size: 10vh;
+    font-style: normal;
+    font-weight: 400;
+    border: 0.5vh solid #000;
+    border-radius: 2vh;
   }
 }
 
